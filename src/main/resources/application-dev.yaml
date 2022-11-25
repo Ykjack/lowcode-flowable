@@ -1,0 +1,71 @@
+server:
+  port: 8890
+flowable:
+  common:
+    app:
+      idm-url: /idm
+  modeler:
+    app:
+      rest-enabled: true
+  database-schema-update: true
+  process:
+    definition-cache-limit: 1
+  xml:
+    encoding: UTF-8
+mybatis:
+  mapper-locations: classpath:/META-INF/modeler-mybatis-mappings/*.xml
+  config-location: classpath:/META-INF/mybatis-config.xml
+  configuration-properties:
+    blobType: BLOB
+    boolValue: TRUE
+    prefix: ''
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    primary: flowable
+    dynamic:
+      datasource:
+        flowable:
+          username: root
+          password: 123456
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://www.yunjk.top:3306/flowable?useUnicode=true&characterEncoding=utf8&useSSL=false
+          druid:
+            initial-size: 10
+            max-active: 100
+            min-idle: 10
+            max-wait: 10
+        biz:
+          username: root
+          password: 123456
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://www.yunjk.top:3306/yunjun?useUnicode=true&characterEncoding=utf8&useSSL=false
+          druid:
+            initial-size: 10
+            max-active: 100
+            min-idle: 10
+            max-wait: 10
+  data:
+    mongodb:
+      uri: ${APPSMITH_MONGODB_URI:mongodb://www.yunjk.top:27017}
+      database: ${APPSMITH_MONGODB_DATABASE:lowcode}
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          mongodb:
+            repository: DEBUG
+            core: DEBUG
+# PageHelper分页插件
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+# 这是因为Springfox使用的路径匹配是基于AntPathMatcher的
+# 而Spring Boot 2.6.X使用的是PathPatternMatcher。
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
